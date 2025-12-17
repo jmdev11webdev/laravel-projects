@@ -57,3 +57,105 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+--- 
+
+````markdown
+## 📧 Email Verification Setup (Laravel Breeze + WSL2)
+
+This project uses **Laravel Breeze** for authentication with **email verification enabled**. Users must verify their email addresses before accessing protected routes. The project is developed using **WSL2 Ubuntu**, connecting to **XAMPP MySQL on Windows**.
+
+### 1. User Model
+
+Ensure `app/Models/User.php` implements `MustVerifyEmail`:
+
+```php
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+class User extends Authenticatable implements MustVerifyEmail
+{
+    use HasFactory, Notifiable;
+}
+````
+
+This tells Laravel that users must verify their email.
+
+---
+
+### 2. Built-in Breeze Email Verification Routes
+
+Use Breeze’s **built-in controllers** for email verification (no custom controller needed):
+
+```php
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\VerifyEmailController;
+
+Route::get('/email/verify', [EmailVerificationPromptController::class, '__invoke'])
+    ->middleware('auth')
+    ->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+    ->middleware(['auth', 'signed'])
+    ->name('verification.verify');
+
+Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+    ->middleware(['auth', 'throttle:6,1'])
+    ->name('verification.send');
+```
+
+* Avoids errors like `Call to undefined method VerifyEmailController::show()`.
+* Users who are not verified are automatically redirected to `/email/verify`.
+
+---
+
+### 3. Protect Routes for Verified Users
+
+```php
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+```
+
+* Only verified users can access these routes.
+* Unverified users are redirected to `/email/verify`.
+
+---
+
+### 4. Mail Configuration
+
+In `.env`:
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your_email@gmail.com
+MAIL_PASSWORD=your_email_app_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=your_email@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+* For Gmail, use an **App Password** if 2FA is enabled.
+* For local development, `MAIL_MAILER=log` can be used to log emails instead of sending.
+
+---
+
+### 5. Notes on WSL2 + XAMPP
+
+* Laravel runs in **WSL2 Ubuntu**.
+* Database connection uses **XAMPP MySQL on Windows** via the Windows host IP (from `/etc/resolv.conf` in WSL2).
+* This setup ensures email verification works while connecting Laravel in WSL2 to XAMPP MySQL.
+
+---
+
+### ✅ Summary
+
+* Users must verify their email before accessing protected routes.
+* Breeze built-in controllers handle email verification automatically.
+* WSL2 Ubuntu connects seamlessly to XAMPP MySQL on Windows for database operations.
+
+```
