@@ -158,4 +158,101 @@ MAIL_FROM_NAME="${APP_NAME}"
 * Breeze built-in controllers handle email verification automatically.
 * WSL2 Ubuntu connects seamlessly to XAMPP MySQL on Windows for database operations.
 
+---
+
+### 🌍 Making Email Verification Work Globally (Using ngrok – Free)
+
+By default, Laravel generates email verification links using the value of `APP_URL`.  
+If `APP_URL` is set to `http://localhost`, the verification link will only work on the local machine.
+
+To allow **email verification links to be accessed globally** (from any device or network) during development, this project uses **ngrok**.
+
+---
+
+### 6. Exposing Laravel Publicly with ngrok (WSL2)
+
+#### Step 1: Run Laravel in WSL2
+
+```bash
+php artisan serve --host=0.0.0.0 --port=8000
+```
+
+This allows external tools like ngrok to forward traffic to your Laravel app.
+
+---
+
+#### Step 2: Start ngrok
+
+In a new WSL2 terminal:
+
+```bash
+ngrok http 8000
+```
+
+ngrok will generate a public HTTPS URL similar to:
+
+```
+https://abcd-1234.ngrok-free.app
+```
+
+---
+
+#### Step 3: Update `APP_URL`
+
+Copy the ngrok HTTPS URL and update `.env`:
+
+```env
+APP_URL=https://abcd-1234.ngrok-free.app
+```
+
+Then clear cached configuration:
+
+```bash
+php artisan config:clear
+php artisan cache:clear
+```
+
+---
+
+#### Step 4: Resend Verification Email
+
+Log in with an **unverified account** and click **Resend Verification Email**.
+
+The email verification link will now be:
+
+```
+https://abcd-1234.ngrok-free.app/email/verify/{id}/{hash}
+```
+
+✔ Accessible from any device  
+✔ Works outside the local network  
+✔ Uses Laravel’s signed & secure verification URLs  
+
+---
+
+### ⚠️ Important Notes About ngrok
+
+* Free ngrok URLs **change every time ngrok restarts**
+* Update `APP_URL` whenever the ngrok URL changes
+* This setup is **recommended for development only**
+* For production, use a real domain and hosting
+
+---
+
+### 🧠 Why This Works
+
+* Laravel uses `APP_URL` to generate verification links
+* ngrok exposes the local Laravel server to the internet
+* Email verification remains secure via signed URLs
+* MySQL (XAMPP on Windows) stays local and protected
+
+---
+
+### ✅ Final Setup Overview
+
+* Laravel Breeze authentication with email verification
+* WSL2 Ubuntu for Laravel development
+* XAMPP MySQL on Windows connected via WSL2
+* ngrok used to make email verification links globally accessible during development
+
 ```
