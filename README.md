@@ -1,8 +1,8 @@
 # Laravel Projects
 
-A curated collection of Laravel projects showcasing **progressive learning and real-world application development** — starting from basic authentication with **Laravel Breeze**, moving to more advanced features with **Laravel Jetstream**, and evolving into **advanced, production-style Laravel systems**.
+A curated collection of Laravel projects showcasing **progressive learning and real-world application development** without using any starter kits such as breeze, jetstream, livewire, and more, this repository named Laravel Projects is created for the purpose of understanding and creating projects with laravel in only using the programming languages related and applicable with laravel. 
 
-This repository also serves as a **portfolio and learning archive**, developed using **WSL2 with Ubuntu** for a fast, stable, and Linux-native development workflow on Windows.
+This repository also serves as a **portfolio and learning archive**, developed using for a fast, stable, and native development workflow on Windows.
 
 ---
 
@@ -11,7 +11,6 @@ This repository also serves as a **portfolio and learning archive**, developed u
 The main goals of this repository are to:
 
 * Learn and apply Laravel fundamentals and best practices
-* Implement official Laravel starter kits (Breeze and Jetstream)
 * Gradually move toward advanced Laravel architectures
 * Build scalable, maintainable, and clean Laravel applications
 * Track personal growth from beginner to advanced Laravel development
@@ -67,23 +66,13 @@ Each folder is an **independent Laravel project** with its own configuration and
 
 This repository is developed using:
 
-* Windows with WSL2
-* Ubuntu 24.04 LTS
-* PHP 8 or later
+* PHP 8.5 or later
 * Composer
 * Laravel Framework
 * MySQL or MariaDB
 * Node.js and npm
-* Visual Studio Code with Remote - WSL extension
-
-### Why WSL2 with Ubuntu?
-
-* Linux-native performance without dual booting
-* Faster Composer and npm operations
-* Better compatibility with Laravel tooling
-* Cleaner Git and SSH workflows
-* Closer to real production server environments
-
+* Visual Studio Code
+  
 ---
 
 ## Getting Started
@@ -95,35 +84,13 @@ git clone git@github.com:your-username/laravel-projects.git
 cd laravel-projects
 ```
 
-### Open in VS Code (WSL)
-
-```bash
-code .
-```
-
-Make sure the **Remote - WSL** extension is installed.
-
----
-
-## Laravel Breeze Setup (Authentication Starter)
-
-For projects that use **Laravel Breeze** as the authentication starter kit, follow these steps inside the specific project folder.
+To use Laravel make sure you have these depencies installed, and if you still don't know how to please visit their official website. Laravel.com
 
 ### 1️⃣ Install dependencies
 
 ```bash
-composer install
 npm install
 ```
-
-### 2️⃣ Install Laravel Breeze
-
-```bash
-composer require laravel/breeze --dev
-php artisan breeze:install
-```
-
-You may choose **Blade**, **Livewire**, or **Inertia** when prompted (depending on the project).
 
 ---
 
@@ -142,7 +109,7 @@ php artisan migrate
 
 ---
 
-### 4️⃣ Build frontend assets
+### 4️⃣ Run frontend assets (if you installed jetstream)
 
 ```bash
 npm run dev
@@ -167,7 +134,6 @@ http://127.0.0.1:8000
 ### Run Any Project
 
 ```bash
-cd breeze-auth   # or any project folder
 composer install
 npm install
 cp .env.example .env
@@ -206,4 +172,3 @@ This repository is open-source and available under the MIT License.
 ## Author
 
 JMDevStack
-Aspiring Full Stack Web Developer
