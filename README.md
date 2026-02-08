@@ -52,8 +52,7 @@ Each project represents a **specific stage of Laravel proficiency**.
 ```text
 laravel-projects/
 │
-├── applied-breeze/
-│   └── Basic authentication using Laravel Breeze -- the start of this repository
+├── (name of project)
 │
 └── README.md
 ```
@@ -84,7 +83,7 @@ git clone git@github.com:your-username/laravel-projects.git
 cd laravel-projects
 ```
 
-To use Laravel make sure you have these depencies installed, and if you still don't know how to please visit their official website. Laravel.com
+To use Laravel make sure you have installed PHP 8.0+ versions, composer, and nodejs.
 
 ### 1️⃣ Install dependencies
 
@@ -109,7 +108,7 @@ php artisan migrate
 
 ---
 
-### 4️⃣ Run frontend assets (if you installed jetstream)
+### 4️⃣ Run frontend assets (if you installed jetstream and with vuejs)
 
 ```bash
 npm run dev
